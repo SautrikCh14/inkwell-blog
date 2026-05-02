@@ -1,0 +1,40 @@
+<%- include('partials/header', { title: post.title }) %>
+
+<div class="post-page">
+  <div class="post-page-back">
+    <a href="/" class="back-link">← All Posts</a>
+  </div>
+
+  <article class="post-full">
+    <header class="post-full-header">
+      <div class="post-full-meta">
+        <span class="post-date"><%= post.date %></span>
+        <span class="post-dot">·</span>
+        <span class="post-readtime"><%= post.readTime %></span>
+        <span class="post-dot">·</span>
+        <span class="post-author">By <%= post.author %></span>
+      </div>
+      <h1 class="post-full-title"><%= post.title %></h1>
+      <div class="post-full-rule"></div>
+    </header>
+
+    <div class="post-full-body">
+      <% post.content.split('\n').forEach(para => { %>
+        <% if (para.trim()) { %>
+          <p><%= para %></p>
+        <% } %>
+      <% }) %>
+    </div>
+
+    <footer class="post-full-footer">
+      <div class="post-actions-bar">
+        <a href="/posts/<%= post.id %>/edit" class="btn-secondary">Edit Post</a>
+        <form action="/posts/<%= post.id %>/delete" method="POST" onsubmit="return confirmDelete()">
+          <button type="submit" class="btn-danger">Delete Post</button>
+        </form>
+      </div>
+    </footer>
+  </article>
+</div>
+
+<%- include('partials/footer') %>

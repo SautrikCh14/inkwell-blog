@@ -1,0 +1,51 @@
+<%- include('partials/header', { title: 'Home' }) %>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Your writing space</p>
+    <h1 class="hero-headline">Ideas live here.</h1>
+    <p class="hero-sub">Capture thoughts, tell stories, publish ideas.</p>
+  </div>
+  <div class="hero-rule"></div>
+</section>
+
+<section class="posts-section">
+  <div class="posts-header">
+    <h2 class="posts-label">All Posts <span class="posts-count"><%= posts.length %></span></h2>
+  </div>
+
+  <% if (posts.length === 0) { %>
+    <div class="empty-state">
+      <p class="empty-icon">✦</p>
+      <p class="empty-text">Nothing here yet.</p>
+      <a href="/posts/new" class="btn-primary">Write your first post</a>
+    </div>
+  <% } else { %>
+    <div class="posts-grid">
+      <% posts.forEach((post, i) => { %>
+        <article class="post-card <%= i === 0 ? 'post-card--featured' : '' %>">
+          <div class="post-card-meta">
+            <span class="post-date"><%= post.date %></span>
+            <span class="post-dot">·</span>
+            <span class="post-readtime"><%= post.readTime %></span>
+          </div>
+          <h2 class="post-card-title">
+            <a href="/posts/<%= post.id %>"><%= post.title %></a>
+          </h2>
+          <p class="post-card-excerpt"><%= post.excerpt %></p>
+          <div class="post-card-footer">
+            <span class="post-author">By <%= post.author %></span>
+            <div class="post-actions">
+              <a href="/posts/<%= post.id %>/edit" class="action-link action-edit">Edit</a>
+              <form action="/posts/<%= post.id %>/delete" method="POST" class="inline-form" onsubmit="return confirmDelete()">
+                <button type="submit" class="action-link action-delete">Delete</button>
+              </form>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>
