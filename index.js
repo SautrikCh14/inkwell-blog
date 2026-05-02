@@ -12,7 +12,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// In-memory posts store
+
 let posts = [
   {
     id: uuidv4(),
@@ -25,17 +25,16 @@ let posts = [
   },
 ];
 
-// Home - list all posts
 app.get("/", (req, res) => {
   res.render("index", { posts });
 });
 
-// New post form
+
 app.get("/posts/new", (req, res) => {
   res.render("new");
 });
 
-// Create post
+
 app.post("/posts", (req, res) => {
   const { title, content, author } = req.body;
   const wordCount = content.trim().split(/\s+/).length;
@@ -53,21 +52,21 @@ app.post("/posts", (req, res) => {
   res.redirect("/");
 });
 
-// View single post
+
 app.get("/posts/:id", (req, res) => {
   const post = posts.find((p) => p.id === req.params.id);
   if (!post) return res.redirect("/");
   res.render("post", { post });
 });
 
-// Edit form
+
 app.get("/posts/:id/edit", (req, res) => {
   const post = posts.find((p) => p.id === req.params.id);
   if (!post) return res.redirect("/");
   res.render("edit", { post });
 });
 
-// Update post
+
 app.post("/posts/:id/update", (req, res) => {
   const idx = posts.findIndex((p) => p.id === req.params.id);
   if (idx === -1) return res.redirect("/");
@@ -85,7 +84,7 @@ app.post("/posts/:id/update", (req, res) => {
   res.redirect(`/posts/${req.params.id}`);
 });
 
-// Delete post
+
 app.post("/posts/:id/delete", (req, res) => {
   posts = posts.filter((p) => p.id !== req.params.id);
   res.redirect("/");
